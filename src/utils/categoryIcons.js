@@ -1,31 +1,24 @@
-// Ícono representativo por categoría, usado en los marcadores de imagen.
-const iconMap = {
-  motor: 'cog',
-  transmision: 'cog',
-  filtros: 'shield',
-  frenos: 'gauge',
-  suspension: 'wrench',
-  direccion: 'wrench',
-  electrico: 'gauge',
-  rodamientos: 'cog',
-  correas: 'cog',
-  bujias: 'gauge',
-  ejes: 'wrench',
-  carroceria: 'box',
-  accesorios: 'star',
-  'aceite-motor': 'wrench',
-  'aceite-transmision': 'wrench',
-  'filtros-aceite': 'shield',
-  'filtros-aire': 'shield',
-  refrigerantes: 'wrench',
-  'liquido-frenos': 'gauge',
-  grasas: 'wrench',
-  lubricantes: 'wrench',
-  limpiadores: 'wrench',
-  aditivos: 'wrench',
-  preventivo: 'shield',
+// Ícono representativo por categoría (y, cuando ayuda, por subcategoría),
+// usado en los marcadores de imagen mientras no existan fotografías
+// individuales para cada producto.
+const categoryIconMap = {
+  iluminacion: 'bolt',
+  audio: 'speaker',
+  recuperacion: 'winch',
+  'utv-accesorios': 'truck',
+  mantenimiento: 'wrench',
+  trailer: 'trailer',
+  performance: 'gauge',
+  electrico: 'bolt',
 };
 
-export function getCategoryIcon(categoryId) {
-  return iconMap[categoryId] ?? 'box';
+const subcategoryIconMap = {
+  'Filtros de aire': 'shield',
+  'Cámaras': 'search',
+  Radios: 'speaker',
+  Winches: 'winch',
+};
+
+export function getCategoryIcon(categoryId, subcategory) {
+  return subcategoryIconMap[subcategory] ?? categoryIconMap[categoryId] ?? 'box';
 }

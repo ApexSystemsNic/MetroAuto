@@ -1,15 +1,21 @@
-import { buildWhatsAppUrl } from '../data/siteInfo';
-import { getBrandById } from '../data/brands';
+import { buildWhatsAppUrl } from '../config/business';
+import { getVehicleBrandById } from '../data/vehicleBrands';
 
 export function whatsAppUrlForProduct(product) {
-  const message = `Hola, vi el producto ${product.name} en la página de MetroAutos Nicaragua. ¿Me pueden confirmar disponibilidad y precio?`;
+  const parts = [
+    `Hola MetroParts, estoy interesado en ${product.name}`,
+    product.productBrand ? `(${product.productBrand})` : null,
+    'que vi en su página web.',
+  ].filter(Boolean);
+  const skuLine = product.sku ? ` SKU: ${product.sku}.` : '';
+  const message = `${parts.join(' ')}${skuLine} ¿Me pueden confirmar disponibilidad?`;
   return buildWhatsAppUrl(message);
 }
 
 export function whatsAppUrlForUTV(utv) {
-  const brandName = getBrandById(utv.brand)?.name ?? '';
+  const brandName = getVehicleBrandById(utv.vehicleBrand)?.name ?? '';
   const label = [brandName, utv.model].filter(Boolean).join(' ');
-  const message = `Hola, estoy interesado en el ${label} publicado en MetroAutos Nicaragua. ¿Me pueden brindar más información?`;
+  const message = `Hola MetroParts, estoy interesado en ${label}. ¿Me pueden brindar información sobre disponibilidad y precio?`;
   return buildWhatsAppUrl(message);
 }
 

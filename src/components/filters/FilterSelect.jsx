@@ -10,7 +10,7 @@ export default function FilterSelect({ label, value, onChange, options, placehol
           value={value ?? ''}
           onChange={(event) => onChange(event.target.value || null)}
           disabled={disabled || options.length === 0}
-          className="w-full appearance-none rounded-lg border border-border bg-bg-secondary py-3 pl-3.5 pr-9 text-sm text-white disabled:cursor-not-allowed disabled:opacity-50 focus:border-blue focus:outline-none"
+          className="w-full appearance-none rounded-lg border border-border bg-white py-3 pl-3.5 pr-9 text-sm text-text disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-gray-light focus:border-navy focus:outline-none"
         >
           <option value="">{options.length === 0 ? 'Sin opciones' : placeholder}</option>
           {options.map((option) => (

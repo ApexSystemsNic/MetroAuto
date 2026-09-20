@@ -13,7 +13,7 @@ export default function FeaturedUTVs() {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <SectionHeading eyebrow="Catálogo" title="UTV destacados" className="mb-0" />
           <Button to="/utv" variant="outline" size="sm" className="mb-8">
-            Ver todos
+            Ver UTV
           </Button>
         </div>
         <UTVGrid utvs={featured} />
