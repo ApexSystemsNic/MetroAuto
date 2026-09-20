@@ -17,9 +17,26 @@ const paths = {
   truck: 'M3 7h11v8H3zM14 10h4l3 3v2h-7z M7 19a2 2 0 100-4 2 2 0 000 4zM17 19a2 2 0 100-4 2 2 0 000 4z',
   shield: 'M12 2l8 4v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6z',
   arrowRight: 'M5 12h14M13 5l7 7-7 7',
+  bolt: 'M13 2L4 14h6l-1 8 9-12h-6l1-8z',
+  speaker: 'M11 5L6 9H2v6h4l5 4V5zM16.5 8.5a5 5 0 010 7M19.5 5.5a9 9 0 010 13',
+  winch: 'M6 20V8a4 4 0 118 0v8M6 8H4M14 8h2M12 2v2M12 20a4 4 0 004-4h-2',
+  trailer: 'M2 17h3l1.5-5h9L18 17h3M7 17a2 2 0 104 0 2 2 0 00-4 0zM14 17a2 2 0 104 0 2 2 0 00-4 0z',
+  download: 'M12 3v12m0 0l-4-4m4 4l4-4M4 21h16',
+  filter: 'M3 4h18l-7 8v6l-4 2v-8z',
+  externalLink: 'M14 5h5v5M19 5L10 14M7 5H5v14h14v-2',
 };
 
 export default function Icon({ name, className = 'w-5 h-5', strokeWidth = 2 }) {
+  if (name === 'instagram') {
+    return (
+      <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth={strokeWidth} aria-hidden="true">
+        <rect x="3" y="3" width="18" height="18" rx="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+      </svg>
+    );
+  }
+
   const d = paths[name];
   if (!d) return null;
   return (

@@ -4,87 +4,80 @@ import Container from '../../../components/common/Container';
 import SectionHeading from '../../../components/common/SectionHeading';
 import FilterSelect from '../../../components/filters/FilterSelect';
 import Button from '../../../components/common/Button';
-import { getAvailableUTVBrands } from '../../../services/utvService';
-import { partsService, maintenanceService, getCombinedAvailableCategories, getCombinedAvailableModels } from '../../../services/productService';
-
-const brandOptions = Array.from(
-  new Map(
-    [...partsService.getAvailableBrands(), ...maintenanceService.getAvailableBrands(), ...getAvailableUTVBrands()].map(
-      (brand) => [brand.id, brand]
-    )
-  ).values()
-);
+import {
+  getAvailableVehicleBrands,
+  getAvailableVehicleModels,
+  getAvailableCategories,
+} from '../../../services/productService';
 
 export default function VehicleFinder() {
-  const [brand, setBrand] = useState(null);
-  const [category, setCategory] = useState(null);
+  const [vehicleBrand, setVehicleBrand] = useState(null);
   const [model, setModel] = useState(null);
+  const [category, setCategory] = useState(null);
   const navigate = useNavigate();
 
-  const categoryOptions = useMemo(() => getCombinedAvailableCategories(brand), [brand]);
-  const selectedCategory = categoryOptions.find((item) => item.id === category);
-  const modelOptions = useMemo(
-    () => getCombinedAvailableModels(brand, category, selectedCategory?.source),
-    [brand, category, selectedCategory]
+  const brands = useMemo(() => getAvailableVehicleBrands(), []);
+  const models = useMemo(() => getAvailableVehicleModels(vehicleBrand), [vehicleBrand]);
+  const categories = useMemo(
+    () => getAvailableCategories({ vehicleBrand, model }),
+    [vehicleBrand, model]
   );
 
   function handleBrandChange(value) {
-    setBrand(value);
+    setVehicleBrand(value);
+    setModel(null);
     setCategory(null);
-    setModel(null);
-  }
-
-  function handleCategoryChange(value) {
-    setCategory(value);
-    setModel(null);
   }
 
   function handleSubmit(event) {
     event.preventDefault();
-    const destination = selectedCategory?.source === 'mantenimiento' ? '/mantenimiento' : '/repuestos';
     const params = new URLSearchParams();
-    if (brand) params.set('marca', brand);
-    if (category) params.set('categoria', category);
+    if (vehicleBrand) params.set('marca', vehicleBrand);
     if (model) params.set('modelo', model);
-    navigate(`${destination}?${params.toString()}`);
+    if (category) params.set('categoria', category);
+    navigate(`/productos?${params.toString()}`);
   }
 
   return (
-    <section className="border-y border-border bg-bg-secondary py-16 sm:py-20">
+    <section className="border-y border-border bg-bg-light py-16 sm:py-20">
       <Container>
         <SectionHeading
           eyebrow="Buscador"
           title="Encuentra lo que necesitas para tu vehículo"
-          description="Selecciona marca, categoría y modelo para ver productos compatibles al instante."
+          description="Selecciona marca, modelo y categoría para ver productos compatibles al instante."
         />
 
         <form
           onSubmit={handleSubmit}
-          className="grid grid-cols-1 gap-4 rounded-xl border border-border bg-card p-6 sm:grid-cols-2 lg:grid-cols-4"
+          className="grid grid-cols-1 gap-4 rounded-xl border border-border bg-white p-6 sm:grid-cols-2 lg:grid-cols-4"
         >
           <FilterSelect
             label="Marca"
-            value={brand}
+            value={vehicleBrand}
             onChange={handleBrandChange}
             placeholder="Selecciona una marca"
-            options={brandOptions.map((item) => ({ value: item.id, label: item.name }))}
-          />
-          <FilterSelect
-            label="Categoría"
-            value={category}
-            onChange={handleCategoryChange}
-            placeholder={brand ? 'Selecciona una categoría' : 'Elige una marca primero'}
-            options={categoryOptions.map((item) => ({ value: item.id, label: item.name }))}
+            options={brands.map((item) => ({ value: item.id, label: item.name }))}
           />
           <FilterSelect
             label="Modelo"
             value={model}
-            onChange={setModel}
-            placeholder={category ? 'Selecciona un modelo' : 'Opcional'}
-            options={modelOptions.map((item) => ({ value: item, label: item }))}
+            onChange={(value) => {
+              setModel(value);
+              setCategory(null);
+            }}
+            placeholder={vehicleBrand ? 'Selecciona un modelo' : 'Elige una marca primero'}
+            options={models.map((item) => ({ value: item, label: item }))}
+            disabled={!vehicleBrand}
+          />
+          <FilterSelect
+            label="Categoría"
+            value={category}
+            onChange={setCategory}
+            placeholder="Todas las categorías"
+            options={categories.map((item) => ({ value: item.id, label: item.name }))}
           />
           <div className="flex items-end">
-            <Button as="button" type="submit" variant="primary" className="w-full" disabled={!brand}>
+            <Button as="button" type="submit" variant="accent" className="w-full">
               Buscar productos
             </Button>
           </div>

@@ -1,25 +1,37 @@
 import Icon from './Icon';
-import { getBrandById } from '../../data/brands';
+import { getVehicleBrandById } from '../../data/vehicleBrands';
 
-export default function CompatibilityList({ brand, models = [], years = [] }) {
-  const brandName = getBrandById(brand)?.name;
-
+// Compatibilidad del producto: puede ser universal, de una sola marca de
+// vehículo (vehicle-specific) o de varias (multi-brand). Ver
+// compatibilityType en data/products.js.
+export default function CompatibilityList({ compatibilityType, compatibility = [] }) {
   return (
-    <div className="rounded-xl border border-border bg-card p-5">
+    <div className="rounded-xl border border-border bg-white p-5">
       <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-text-secondary">Compatibilidad</h3>
-      <ul className="space-y-2">
-        {models.map((model) => (
-          <li key={model} className="flex items-center gap-2 text-sm text-white">
-            <Icon name="check" className="h-4 w-4 flex-shrink-0 text-green-400" />
-            {brandName} {model}
-          </li>
-        ))}
-      </ul>
-      {years.length > 0 ? (
-        <p className="mt-3 text-xs text-text-secondary">
-          Años: {years.join(', ')}
+
+      {compatibilityType === 'universal' ? (
+        <p className="flex items-center gap-2 text-sm font-medium text-text">
+          <Icon name="check" className="h-4 w-4 flex-shrink-0 text-green-600" />
+          Universal para UTV
         </p>
-      ) : null}
+      ) : (
+        <ul className="space-y-3">
+          {compatibility.map((entry) => {
+            const brandName = getVehicleBrandById(entry.brand)?.name ?? entry.brand;
+            return (
+              <li key={entry.brand}>
+                <p className="flex items-center gap-2 text-sm font-semibold text-text">
+                  <Icon name="check" className="h-4 w-4 flex-shrink-0 text-green-600" />
+                  {brandName}
+                </p>
+                {entry.models.length > 0 ? (
+                  <p className="ml-6 mt-1 text-xs text-text-secondary">{entry.models.join(', ')}</p>
+                ) : null}
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </div>
   );
 }

@@ -2,30 +2,29 @@
 
 @theme {
   --font-sans: 'Inter', system-ui, 'Segoe UI', Roboto, sans-serif;
-  --font-display: 'Rajdhani', 'Inter', system-ui, sans-serif;
+  --font-display: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
 
-  --color-bg: #08090b;
-  --color-bg-secondary: #111318;
-  --color-card: #16191f;
-  --color-border: #23262e;
-  --color-blue: #126bff;
-  --color-blue-dark: #0d4fc2;
-  --color-red: #e51b23;
-  --color-red-dark: #b3131a;
-  --color-green: #22c55e;
+  --color-navy: #07153d;
+  --color-navy-dark: #040b23;
+  --color-red: #ef1b2d;
+  --color-red-dark: #c81626;
   --color-white: #ffffff;
-  --color-text-secondary: #aab0bb;
+  --color-bg-light: #f5f6f8;
+  --color-gray-light: #eaecf0;
+  --color-text: #121826;
+  --color-text-secondary: #667085;
+  --color-border: #e2e5ea;
 }
 
 html {
   scroll-behavior: smooth;
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 body {
   margin: 0;
-  background-color: var(--color-bg);
-  color: var(--color-white);
+  background-color: var(--color-white);
+  color: var(--color-text);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -34,17 +33,16 @@ body {
 
 h1, h2, h3, h4 {
   font-family: var(--font-display);
-  font-weight: 700;
-  letter-spacing: 0.01em;
+  font-weight: 800;
 }
 
 ::selection {
-  background-color: var(--color-blue);
+  background-color: var(--color-red);
   color: var(--color-white);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-blue);
+  outline: 2px solid var(--color-red);
   outline-offset: 2px;
 }
 
@@ -52,14 +50,14 @@ h1, h2, h3, h4 {
   width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-bg);
+  background: var(--color-bg-light);
 }
 ::-webkit-scrollbar-thumb {
   background: var(--color-border);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-blue);
+  background: var(--color-navy);
 }
 
 .text-balance {
